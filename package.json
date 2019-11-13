@@ -1,19 +1,29 @@
 {
-  "name": "server1.1",
-  "version": "1.1.0",
+  "name": "gamemasterserver",
+  "version": "1.0.0",
   "description": "",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/encoreg91785/GameMasterServer.git"
+  },
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/encoreg91785/GameMasterServer/issues"
+  },
+  "homepage": "https://github.com/encoreg91785/GameMasterServer#readme",
   "dependencies": {
-    "express": "^4.16.3",
-    "multer": "^1.3.0",
-    "mysql2": "^1.5.2",
-    "net": "^1.0.2",
-    "sequelize": "^4.37.1",
-    "xlsx": "^0.12.5"
+    "async-foreach": "^0.1.3",
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "mysql2": "^1.6.5",
+    "sequelize": "^5.10.1"
   }
 }
