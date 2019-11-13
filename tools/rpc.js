@@ -50,6 +50,8 @@ function init() {
  */
 function socketPayloadDeserialize(uid, type, className, str, stickPackage) {
     currentStickPackage = stickPackage;
+    console.log("=================接收================");
+    console.log(uid, type, className, str);
     switch (type) {
         case socketType.RpcRequest://RpcRequest
             /**
@@ -145,7 +147,6 @@ function socketIsAlive(stickPackage) {
  */
 function broadcastFire(idList, systemName, methodName, ...arg) {
     let payload = socketPayloadSerialize(methodName, arg);
-    console.log(arg);
     let data = StickPackage.setSendData(systemName, payload, socketType.RpcRequest);
     for (let index = 0; index < idList.length; index++) {
         let id = idList[index];
@@ -305,7 +306,7 @@ function removeStickPackage(stickOrId) {
  * @param {*} obj 資料物件
  * @param {number[]} target 通知的對象假如沒有就是當前的socket 
  */
-function broadcastNotify(className,obj, target) {
+function broadcastNotify(className, obj, target) {
     let buf = StickPackage.setSendData(className, obj, socketType.Notify);
     if (target.constructor.name == "Array") {
         for (let i = 0; i < target.length; i++) {
@@ -325,7 +326,7 @@ function getCurrentStickPackage() {
 }
 
 /**
- * 
+ * 斷線
  * @param {StickPackage} sp 
  */
 function onDisconnect(sp) {
@@ -338,6 +339,20 @@ function onDisconnect(sp) {
         }
     }
     removeStickPackage(sp);
+}
+
+/**
+ * 重連
+ * @param {StickPackage} sp 
+ */
+function onReonnect(sp) {
+    let ls = Object.values(systems);
+    for (let i = 0; i < ls.length; i++) {
+        let system = ls[i];
+        if (system != null && system["onReonnect"]) {
+            system["onReonnect"](sp);
+        }
+    }
 }
 // /**
 //  * 
@@ -419,6 +434,7 @@ class SocketPayload {
     }
 }
 
+/**暫時保留可以刪去 */
 class Entity {
     constructor() {
     }
@@ -436,6 +452,8 @@ module.exports.getCurrentStickPackage = getCurrentStickPackage;
 module.exports.broadcastFire = broadcastFire;
 module.exports.broadcastNotify = broadcastNotify;
 module.exports.onDisconnect = onDisconnect;
+module.exports.onReonnect = onReonnect;
+
 /**
  * @typedef {import("./stickPackage")} StickPackage
  */

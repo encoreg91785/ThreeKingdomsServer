@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * 所有用戶/玩家管理
+ */
 const mysql = require("../tools/mysql");
 const rpc = require("../tools/rpc");
 const Player = require("../entity").Player;
@@ -43,6 +46,10 @@ function login(account, password) {
         let st = rpc.findStickPackageByUnique(r.aid);
         if (st != null && sp != st) {
             st.close(socketError.repeatLogin, "重複登入");
+        }
+        if(disconnectPlayer[r.aid]!=null){
+            delete disconnectPlayer[r.aid];
+            sp.reConnectFunction(sp);
         }
         sp.unique = r.aid;
         const p = new Player(r);
@@ -113,15 +120,6 @@ function findPlayerById(id) {
 //#endregion
 
 /**
- * 斷線
- * @param {StickPackage} sp 
- */
-function onDisconnect(sp) {
-    disconnectPlayer[sp.unique] = allPlayer[sp.unique];
-    removePlayer(sp.unique);
-}
-
-/**
  * 移除玩家
  * @param {number|Player} nOrP 
  */
@@ -152,6 +150,22 @@ function getAllOnlinePlayerId(){
     return idss;
 }
 
+/**
+ * 斷線
+ * @param {StickPackage} sp 
+ */
+function onDisconnect(sp) {
+    disconnectPlayer[sp.unique] = allPlayer[sp.unique];
+    removePlayer(sp.unique);
+}
+
+/**
+ * 斷線
+ * @param {StickPackage} sp 
+ */
+function onReonnect(sp) {
+}
+
 module.exports.rpc = {
     login,
     register,
@@ -160,6 +174,7 @@ module.exports.rpc = {
 
 module.exports.getAllOnlinePlayerId = getAllOnlinePlayerId;
 module.exports.onDisconnect = onDisconnect;
+module.exports.onReonnect = onReonnect;
 module.exports.findPlayerById = findPlayerById;
 /**
  * @typedef {import("../tools/stickPackage")} StickPackage

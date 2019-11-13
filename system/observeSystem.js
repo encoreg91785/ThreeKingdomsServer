@@ -1,4 +1,7 @@
 'use strict';
+/**
+ * 監聽特定的Class異動
+ */
 const utility = require("../tools/utility");
 const rpc = require("../tools/rpc");
 /**
@@ -83,12 +86,21 @@ function onDisconnect(sp) {
     if (obList != null) delete playerObserve[sp.unique];
 }
 
+/**
+ * 重連
+ * @param {StickPackage} sp 
+ */
+function onReonnect(sp) {
+
+}
+
 module.exports.rpc = {
     addListen,
     removeListen
 }
 module.exports.notify = notify;
 module.exports.onDisconnect = onDisconnect;
+module.exports.onReonnect = onReonnect;
 /**
  * @typedef {import("../tools/stickPackage")} StickPackage
  */

@@ -87,7 +87,8 @@ class StickPackage {
             offset += this.uuidSize;
             //寫入資料
             buf.write(dataStr, offset, "utf8");
-            console.log(data, buf);
+            console.log("=================發出================");
+            console.log(uid, type, className, dataStr);
             return buf;
         }
         else {
@@ -148,6 +149,11 @@ class StickPackage {
          * 登入成功後獲得的認證碼
          */
         this.httpToken = "";
+        /**
+         * 斷線重連
+         * @type {function(StickPackage):void}
+         */
+        this.onReonnectFunction = function (sp) { };
     }
 
     /**

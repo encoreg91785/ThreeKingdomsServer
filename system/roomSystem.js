@@ -1,7 +1,10 @@
 'use strict';
+/**
+ * 大廳與房間管理
+ */
 const rpc = require("../tools/rpc");
 const utility = require("../tools/utility");
-const Room = require("../entity/room");
+const Room = require("../entity").Room;
 const gameSystem = require("../system/gameSystem");
 const accountSystem = require("../system/accountSystem");
 /**
@@ -218,6 +221,15 @@ function onDisconnect(sp) {
         }
     }
 }
+
+/**
+ * 重連
+ * @param {StickPackage} sp 
+ */
+function onReonnect(sp) {
+
+}
+
 module.exports.rpc = {
     joinRoom,
     leaveRoom,
@@ -231,8 +243,9 @@ module.exports.rpc = {
 }
 module.exports.onDisconnect = onDisconnect;
 module.exports.getRoomById = getRoomById;
+module.exports.onReonnect = onReonnect;
+
 
 /**
  * @typedef {import("../tools/stickPackage")} StickPackage
- * @typedef {import("../entity/room")} Room
  */
