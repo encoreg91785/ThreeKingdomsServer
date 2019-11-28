@@ -182,6 +182,10 @@ function socketSync(stickPackage) {
     }, 1000 * syncTime);
 }
 
+/**
+ * 讀取所有js檔案
+ * @param {string} path 
+ */
 function loadAllScript(path) {
     let allFile = {};
     if (fs.existsSync(path)) {
