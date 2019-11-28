@@ -244,7 +244,10 @@ module.exports.rpc = {
 module.exports.onDisconnect = onDisconnect;
 module.exports.getRoomById = getRoomById;
 module.exports.onReonnect = onReonnect;
-
+/**
+ * 取得所有大廳玩家
+ */
+module.exports.lobbyPlayerList = ()=>{return lobbyPlayerList};
 
 /**
  * @typedef {import("../tools/stickPackage")} StickPackage

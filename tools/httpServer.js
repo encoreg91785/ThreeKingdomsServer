@@ -10,20 +10,6 @@ const jwt = require('jsonwebtoken');
 const secret = require('../config').secret;
 
 /**
- * 初始化所有Manager
- */
-function loadManager() {
-    const api = utility.loadAllScript("./manager");//初始化所有Manager 回傳 Promise
-    let p = [];
-    Object.keys(api).forEach(key => {
-        if (api[key]['init'] != null) {
-            p.push(api[key]['init']());
-        }
-    });
-    return Promise.all(p);
-}
-
-/**
  * 讀取所有Router
  */
 function loadRouter() {
@@ -40,20 +26,16 @@ function loadRouter() {
  * 3.讀取所有Router
  */
 function startServer(port) {
-    var p = new Promise((resolve, resject) => {
+    return new Promise((resolve, resject) => {
         app.use(parseMultipart);
         app.use(bodyParser.json({ limit: '50mb' }));//json
         app.use(bodyParser.urlencoded({ extended: true, limit: '50mb', parameterLimit: 50000 }));//x-www-form-urlencoded
         app.use(verify);
-        //app.use(express.static('page'));
         loadRouter();
         app.listen(port, '0.0.0.0', () => {
             console.log('HttpServer Is Run');
             resolve();
         });
-    });
-    return loadManager().then(_ => {
-        return p;
     });
 
 }

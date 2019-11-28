@@ -5,15 +5,31 @@ const mysql = require('./tools/mysql');
 const config = require('./config');
 
 errorToJSON();
-mysql.connect(config.db).then(_=>{
+mysql.connect(config.db).then(()=>{
+    return loadManager();
+}).then(()=>{
     return socketServer.startServer(config.socket.port);
-}).then(_=>{
+}).then(()=>{
     return httpServer.startServer(config.http.port);
-}).then(_=>{
+}).then(()=>{
     console.log("Finish");
 }).catch(e=>{
     console.log(e);
 });
+
+/**
+ * 初始化所有Manager
+ */
+function loadManager() {
+    const api = utility.loadAllScript("./manager");//初始化所有Manager 回傳 Promise
+    let p = [];
+    Object.keys(api).forEach(key => {
+        if (api[key]['init'] != null) {
+            p.push(api[key]['init']());
+        }
+    });
+    return Promise.all(p);
+}
 
 /**
  * 讓Error訊息可以被轉成JSON
