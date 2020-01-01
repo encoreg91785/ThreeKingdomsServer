@@ -49,6 +49,19 @@ function getRandom(x) {
     if(x<=0)return 0;
     else return Math.floor(Math.random() * x);
 };
+/**
+ * 範圍亂數
+ * @param {number} min 最小值
+ * @param {number} max 最大值
+ */
+function getRandomRange(min, max) {
+    var r = 0;
+    if (min < max) {
+        r = Math.floor(Math.random() * (max - min) + min);
+    }
+    return r;
+}
+module.exports.getRandomRange = getRandomRange;
 module.exports.getRandom = getRandom;
 module.exports.isEmptyOrNull = isEmptyOrNull;
 module.exports.loadAllScript = loadAllScript;
